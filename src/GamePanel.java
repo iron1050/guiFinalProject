@@ -33,6 +33,6 @@ public class GamePanel extends JPanel implements ActionListener{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background,0,0,null);
-        g.drawString("Score: " + score, 0,0);
+        g.drawString("Score: " + score, 15,60);
     }
 }
