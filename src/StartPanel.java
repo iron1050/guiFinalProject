@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class StartPanel extends JPanel implements ActionListener{
     private JButton startButton;
-    private String playerName;
+    public String playerName;
     private JTextField textField;
     private BufferedImage startImg;
     private JFrame enclosingFrame;
@@ -57,6 +57,8 @@ public class StartPanel extends JPanel implements ActionListener{
         startButton.setLocation(500,547);
         textField.setLocation(570,550);
     }
+
+
 
 
 
