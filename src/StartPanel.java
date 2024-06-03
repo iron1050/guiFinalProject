@@ -30,6 +30,7 @@ public class StartPanel extends JPanel implements ActionListener{
         add(textField);
         startButton.addActionListener(this);
         textField.addActionListener(this);
+
     }
 
     public BufferedImage getStartImg() {
@@ -38,14 +39,17 @@ public class StartPanel extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() instanceof JButton) {
-            GameFrame ga = new GameFrame();
+            GameFrame ga = new GameFrame(textField.getText());
+            System.out.println(textField.getText());
             enclosingFrame.setVisible(false);
             return;
         }
 
         if(e.getSource() instanceof JTextField) {
+
             playerName = textField.getText();
-            GameFrame g = new GameFrame();
+
+            GameFrame g = new GameFrame(playerName);
             enclosingFrame.setVisible(false);
 
         }
@@ -54,12 +58,7 @@ public class StartPanel extends JPanel implements ActionListener{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);  // just do this
         g.drawImage(startImg, 0, 0, null);
-        startButton.setLocation(500,547);
-        textField.setLocation(570,550);
+        startButton.setLocation(500, 547);
+        textField.setLocation(570, 550);
     }
-
-
-
-
-
 }
