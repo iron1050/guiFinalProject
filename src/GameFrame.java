@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class GameFrame implements Runnable {
     private GamePanel g;
@@ -20,6 +21,13 @@ public class GameFrame implements Runnable {
 
         Thread thread = new Thread(this);
         thread.start();
+
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image image = toolkit.getImage("src/handwriting.gif");
+        Component mainPane = null;
+        Cursor c = toolkit.createCustomCursor(image , new Point(mainPane.getX(),
+                mainPane.getY()), "img");
+        mainPane.setCursor (c);
     }
 
     public void run() {
