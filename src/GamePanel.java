@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
             System.out.println(e.getMessage());
         }
         board = new Rectangle[9];
-        board[0] = new Rectangle(0, 0, 1000, 1000);
+        board[0] = new Rectangle(0, 0, 50, 50);
         gamer = new Player(name);
         addMouseListener(this);
     }

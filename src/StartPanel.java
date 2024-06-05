@@ -46,12 +46,9 @@ public class StartPanel extends JPanel implements ActionListener{
         }
 
         if(e.getSource() instanceof JTextField) {
-
             playerName = textField.getText();
-
             GameFrame g = new GameFrame(playerName);
             enclosingFrame.setVisible(false);
-
         }
     }
 
