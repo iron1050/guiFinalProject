@@ -1,8 +1,14 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 
 public class GameFrame implements Runnable {
     private GamePanel g;
+    private BufferedImage image;
 
     public GameFrame(String name) {
         // make the frame
@@ -22,12 +28,17 @@ public class GameFrame implements Runnable {
         Thread thread = new Thread(this);
         thread.start();
 
+
+        try {
+            image = ImageIO.read(new File("src/hammer.jpeg"));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image image = toolkit.getImage("src/handwriting.gif");
-        Component mainPane = null;
-        Cursor c = toolkit.createCustomCursor(image , new Point(mainPane.getX(),
-                mainPane.getY()), "img");
-        mainPane.setCursor (c);
+        Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0,0), "customCursor");
+        Cursor c = toolkit.createCustomCursor(image , new Point(gameFrame.getX(), gameFrame.getY()), "img");
+        gameFrame.setCursor(c);
     }
 
     public void run() {
@@ -35,4 +46,5 @@ public class GameFrame implements Runnable {
             g.repaint();
         }
     }
+
 }
