@@ -35,10 +35,10 @@ public class GameFrame implements Runnable {
             System.out.println(e.getMessage());
         }
 
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        /*Toolkit toolkit = Toolkit.getDefaultToolkit();
         Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0,0), "customCursor");
         Cursor c = toolkit.createCustomCursor(image , new Point(gameFrame.getX(), gameFrame.getY()), "img");
-        gameFrame.setCursor(c);
+        gameFrame.setCursor(c);*/
     }
 
     public void run() {
