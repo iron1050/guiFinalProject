@@ -59,13 +59,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
         g.drawString("Name: " + gamer.getName(), 15, 45);
         g.drawString("Score: " + gamer.getScore(), 15,60);
         g.drawString(getMousePosition().getX() + ", " + getMousePosition().getY(), 15, 75);
-        try {
+        /*try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());;
         }
-        int pos = (int) (Math.random() * points.length);
-        g.drawImage()
+        Rectangle pos = board[(int) (Math.random() * board.length)];
+        g.drawImage(mole, (int) pos.getX(),(int) pos.getY(), null );*/
     }
 
 
