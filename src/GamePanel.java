@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.math.*;
+import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, MouseListener{
     private BufferedImage background;
     private BufferedImage mole;
@@ -17,6 +18,9 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
     private JFrame enclosingFrame;
     private Player gamer;
     private Point[] points;
+    private Timer timer;
+    private int timeRemaining = 10; // Seconds
+    private Timer gameTimer;
     public GamePanel(JFrame f, String name) {
         System.out.println(name);
         enclosingFrame = f;
@@ -36,19 +40,31 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
         board[5] = new Rectangle(945, 517, 200, 200);
         gamer = new Player(name);
         addMouseListener(this);
+        timer = new Timer(1000, this);
+        timer.start();
+        gameTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timeRemaining--;
+                if (timeRemaining == 0) {
+                    endGame();
+                    gameTimer.stop();
+                }
+                repaint();
+            }
+        });
+        gameTimer.start();
     }
 
     private void popUp() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());;
-        }
-        int pos = (int) (Math.random() * points.length);
-
+        // Reset the points array to clear the previous mole position
+        points = new Point[6];
+        int pos = (int) (Math.random() * board.length);
+        points[pos] = new Point((int) board[pos].getX(), (int) board[pos].getY());
     }
     public void actionPerformed(ActionEvent e) {
-
+        popUp();
+        repaint();
     }
     public BufferedImage getStartImg() {
         return background;
@@ -59,16 +75,18 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
         g.drawString("Name: " + gamer.getName(), 15, 45);
         g.drawString("Score: " + gamer.getScore(), 15,60);
         g.drawString(getMousePosition().getX() + ", " + getMousePosition().getY(), 15, 75);
-        /*try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());;
+        g.drawString("Time: " + timeRemaining, getWidth()/2 - 30, 30); // Display timer in top middle
+        for(Point p: points) {
+            if(p != null) {
+                // Scale the mole image to the size of the rectangle
+                g.drawImage(mole, (int) p.getX(), (int) p.getY(), board[0].width, board[0].height, null);
+            }
         }
-        Rectangle pos = board[(int) (Math.random() * board.length)];
-        g.drawImage(mole, (int) pos.getX(),(int) pos.getY(), null );*/
     }
 
-
+    private void endGame() {
+        JOptionPane.showMessageDialog(enclosingFrame, "Thank you for playing!\nYour final score is: " + gamer.getScore(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     public boolean isInRect(MouseEvent e) {
         for(Rectangle r : board) {
