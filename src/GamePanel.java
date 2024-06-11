@@ -1,22 +1,22 @@
 import java.awt.*;
-
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.math.*;
-public class GamePanel extends JPanel implements ActionListener, MouseListener{
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
+public class GamePanel extends JPanel implements ActionListener, MouseListener {
     private BufferedImage background;
     private BufferedImage mole;
     private Rectangle[] board;
     private JFrame enclosingFrame;
     private Player gamer;
     private Point[] points;
+    private Timer timer;
+    private int countdown;
+    private JLabel countdownLabel;
+
     public GamePanel(JFrame f, String name) {
         System.out.println(name);
         enclosingFrame = f;
@@ -36,79 +36,70 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener{
         board[5] = new Rectangle(945, 517, 200, 200);
         gamer = new Player(name);
         addMouseListener(this);
+
+        countdown = 10; // Set initial countdown value
+        countdownLabel = new JLabel("Countdown: " + countdown);
+        countdownLabel.setBounds(15, 90, 150, 20);
+        add(countdownLabel);
+
+        timer = new Timer(1000, this);
+        timer.start();
     }
 
-    private void popUp() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());;
-        }
-        int pos = (int) (Math.random() * points.length);
-
-    }
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource() == timer) {
+            countdown--;
+            countdownLabel.setText("Countdown: " + countdown);
+            if (countdown == 0) {
+                timer.stop();
+                // Add code to handle end of game here
+            }
+        }
+        repaint();
     }
+
     public BufferedImage getStartImg() {
         return background;
     }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(background,0,0,null);
+        g.drawImage(background, 0, 0, null);
         g.drawString("Name: " + gamer.getName(), 15, 45);
-        g.drawString("Score: " + gamer.getScore(), 15,60);
+        g.drawString("Score: " + gamer.getScore(), 15, 60);
         g.drawString(getMousePosition().getX() + ", " + getMousePosition().getY(), 15, 75);
-        /*try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());;
-        }
-        Rectangle pos = board[(int) (Math.random() * board.length)];
-        g.drawImage(mole, (int) pos.getX(),(int) pos.getY(), null );*/
+
+        /*for (Rectangle pos : board) {
+            g.drawImage(mole, (int) pos.getX(), (int) pos.getY(), null);
+        }*/
+
+
     }
 
-
-
     public boolean isInRect(MouseEvent e) {
-        for(Rectangle r : board) {
-            if(r.contains(new Point(e.getX(),e.getY()))) {
+        for (Rectangle r : board) {
+            if (r.contains(new Point(e.getX(), e.getY()))) {
                 return true;
             }
         }
         return false;
     }
 
-    public void eventListener(MouseEvent e) {
-        if(isInRect(e)) {
-            System.out.println("word");
-        }
-    }
-
-    @Override
     public void mouseClicked(MouseEvent e) {
-        if(isInRect(e)) {
+        if (isInRect(e)) {
             gamer.iterateScore();
         }
     }
 
-    @Override
     public void mousePressed(MouseEvent e) {
-
     }
 
-    @Override
     public void mouseReleased(MouseEvent e) {
-
     }
 
-    @Override
     public void mouseEntered(MouseEvent e) {
-
     }
 
-    @Override
     public void mouseExited(MouseEvent e) {
-
     }
 }
